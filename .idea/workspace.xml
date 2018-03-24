@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cda409ad-863f-4b37-af4e-0cad8371b995" name="Default" comment="" />
+    <list default="true" id="cda409ad-863f-4b37-af4e-0cad8371b995" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/WebApps/cus.css" afterPath="$PROJECT_DIR$/WebApps/cus.css" />
+      <change beforePath="$PROJECT_DIR$/WebApps/login_Page.html" afterPath="$PROJECT_DIR$/WebApps/login_Page.html" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,9 +20,11 @@
       <file leaf-file-name="login_Page.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebApps/login_Page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="42" column="10" lean-forward="true" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-              <folding />
+            <state relative-caret-position="128">
+              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="54" selection-end-column="10" />
+              <folding>
+                <element signature="e#2563#2569#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -27,8 +32,8 @@
       <file leaf-file-name="cus.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WebApps/cus.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="68">
+              <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -166,12 +171,12 @@
       <updated>1521804547001</updated>
       <workItem from="1521804548428" duration="7775000" />
       <workItem from="1521862364784" duration="14066000" />
-      <workItem from="1521895050254" duration="2854000" />
+      <workItem from="1521895050254" duration="5972000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24695000" />
+    <option name="totallyTimeSpent" value="27813000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="32" width="1382" height="744" extended-state="6" />
@@ -211,7 +216,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2563#2569#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -235,7 +242,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2563#2569#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -285,17 +294,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebApps/cus.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="68">
+          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebApps/login_Page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="10" lean-forward="true" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="128">
+          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="54" selection-end-column="10" />
+          <folding>
+            <element signature="e#2563#2569#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
