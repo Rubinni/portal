@@ -1,6 +1,8 @@
 #jambo{
     margin-bottom: 5px;
 }
-#form{
-    margin-top: 15px;
+#form {
+    margin: 0 auto;
+    width:250px;
+    margin-top: 20px;
 }
