@@ -1,0 +1,274 @@
+var rdDynamic = (function () {
+
+  //Immediately returns an anonymous function which builds our modules
+  return function (co,$) {    //co is short for config object
+
+    //Public -> Test for hotspot
+    var isHotspot = function(){
+        var byName = $.getUrlVar(co.queryItem);
+        if(byName == undefined){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    //Public -> Add Dynamic info
+    var addDynamicInfo = function(){
+        var retInfo;
+
+        var urlScaler = '/cake2/rd_cake/webroot/files/image.php';
+
+        var url = co.dynUrl + document.location.search;
+        $.getJSON(url, null, function(j) { //We send the query string along
+
+			//If there is not a dynamic login page for this guy ---- let it be known
+			if(j.success == false){
+				$("#cNotHotspot h3").text("Huston we have a problem....");
+
+				$("#cNotHotspot p").html("Go to KelalWiFi.com/admin, open the <b>Dynamic Login Pages</b> applet. Select an entry and <b>edit</b> it<br>"+
+                "Make sure you added an identifier from this URL's query string under <b>Dynamic Keys</b>"+
+                " to ensure proper working of this login page<br>");
+
+				$("#cNotHotspot").show();
+                $("#cConnect").hide();
+				return;
+			}
+
+			//Store this data JQuery style
+			$("body").data("DynamicDetail",j);
+
+			buildGui();
+
+			doRememberMe();
+
+			addConnect(); // Adds rdConnect
+
+            // Add the photo gallery
+            var thumb, large, caption, slide;
+            var img_scaler  = co.scaler + '?height=' + co.thumb_h + '&width=' + co.thumb_w + '&image=';
+
+            for(i in j.data.photos){
+                large   = j.data.photos[i].file_name;
+                caption = "<div class='clear_both'><strong>" + j.data.photos[i].title + "</strong><br />" + j.data.photos[i].description + "</div>";
+				slide = "<div>" + caption + "<img style='width: 100%; height: auto;' src='" + large + "' alt='" + j.data.photos[i].description + "' title='" + j.data.photos[i].title + "' /></div>";
+                $('#slider').append(slide);
+            }
+			$('#slider').owlCarousel({
+				responsive : true,
+				autoHeight : true,
+				autoPlay : true,
+				rewindNav: true,
+				slideSpeed : 300,
+				paginationSpeed : 400,
+				singleItem : true
+			});
+			owl = $('#slider').data('owlCarousel');
+			owl.stop();
+
+
+            // Populate the dynamic info (connect page and about page)
+			$('#dynName').text(j.data.detail.name);
+            $('#dynLogo').attr('src',urlScaler+'?height=100&width=100&image='+j.data.detail.icon_file_name);
+
+			$('#dynNameOnAbout').text(j.data.detail.name);
+			$('#dynCell').html(j.data.detail.cell);
+            $('#dynPhone').html(j.data.detail.phone);
+            $('#dynFax').html(j.data.detail.fax);
+            $('#dynStreet').html(j.data.detail.street);
+            $('#dynArea').html(j.data.detail.town_suburb);
+			$('#dynCity').html(j.data.detail.city);
+			$('#dynCountry').html(j.data.detail.country);
+            $('#dynMail').html(j.data.detail.email);
+			$('#dynUrl').html(j.data.detail.url);
+			map_url = 'http://maps.google.com/?q=' + j.data.detail.lat + ',' + j.data.detail.lon;
+			if( j.data.detail.lat > 0 && j.data.detail.lon > 0 )
+				$('#dynLocation').html('<a target="_blank" href="' + map_url + '">Location on Google Maps</a>');
+
+            //Add the own pages as content of Help page
+			for(i in j.data.pages){
+				$('#HelpContent').html("<h4>" + j.data.pages[i].name + "</h4>" + j.data.pages[i].content + "<br>");
+            }
+        });
+    }
+
+	var addConnect = function(){
+        var c = rdConnect({},window.jQuery);
+		co.connect = c //Set this globally
+
+		//We prime it since we assume the pageshow event already fired
+        c.index();
+		//Check if this page was a sosial login return
+		c.checkSocialLoginReturn();
+
+		// Since the following depends on a JQM event, this has been moved to the index.html file and
+		// has been implemented using bootstrap tab events
+
+        /*$('#connect')
+		.on('pageshow', function(e){
+			c.index();
+		})
+		.on('pagehide', function(e){
+			c.clearRefresh();
+		});*/
+
+		//Disconnect button
+		$("button[name=btn_disconnect]").off().on('click',function(){
+	        c.onBtnDisconnectClick();
+	    });
+	}
+
+	var callIndex = function(){
+		co.connect.index();
+	}
+
+	var callclearRefresh = function(){
+		co.connect.clearRefresh();
+	}
+
+	var buildGui = function(){
+		//The voucher field
+		if( ($("body").data("DynamicDetail").data.settings.voucher_login_check == true) &&
+		    ($("body").data("DynamicDetail").data.settings.connect_only == false) ){
+
+			var v = '<div class="form-group has-feedback"><input type="text" class="form-control" name="voucher" id="voucher" placeholder="Voucher"></div>';
+			$('[data-rd="login_field"]').append(v);
+		}
+
+		//The OR label
+		if( ($("body").data("DynamicDetail").data.settings.voucher_login_check == true) &&
+			($("body").data("DynamicDetail").data.settings.user_login_check == true) &&
+			($("body").data("DynamicDetail").data.settings.connect_only == false) ){
+
+			var or = '<div class="form-group" style="text-align: center;"><span class="badge badge-primary">OR</span></div>';
+			$('[data-rd="login_field"]').append(or);
+		}
+
+		//The username and password fields
+		if( ($("body").data("DynamicDetail").data.settings.user_login_check == true) &&
+			($("body").data("DynamicDetail").data.settings.connect_only == false) ){
+
+			var un_pw = '<div class="form-group has-feedback"><input type="text" class="form-control" id="username" placeholder="Username"></div><div class="form-group has-feedback"><input type="password" class="form-control" id="password" placeholder="Password"></div><label><input type="checkbox" name="remember_me" id="remember_me" value="remember_me"> Remember me</label>';
+			$('[data-rd="login_field"]').append(un_pw);
+		}
+
+		//The T & C checkbox and link
+		if ($("body").data("DynamicDetail").data.settings.t_c_check == true){
+
+			var tc = '<label><input type="checkbox" name="chkTandC" id="chkTandC"> I agree to the <a href="' + $("body").data("DynamicDetail").data.settings.t_c_url + '" target="_blank">Terms &amp; Conditions</a></label>';
+			$('[data-rd="login_field"]').append(tc);
+		}
+
+		//Buttons: only click to connect
+		if( ($("body").data("DynamicDetail").data.settings.connect_check == true) &&
+			($("body").data("DynamicDetail").data.settings.connect_only == true) ){
+
+			var c_t_c_b = '<div class="form-group-with-top-margin"><button type="button" class="btn btn-block btn-primary" name="btn_click_to_connect">Free Access</button></div>';
+			$('[data-rd="login_field"]').append(c_t_c_b);
+
+			//Bind the events
+			$("button[name=btn_click_to_connect]").off().on('click',function(){
+	            co.connect.onBtnClickToConnectClick();
+	        });
+		}
+
+		//Buttons: click connect and connect
+		if( ($("body").data("DynamicDetail").data.settings.connect_check == true) &&
+			($("body").data("DynamicDetail").data.settings.connect_only == false) ){
+
+			var b = '<div class="row form-group-with-top-margin"><div class="col-md-6" style="text-align: center;"><button type="button" class="btn  btn-primary" name="btn_click_to_connect">Free Access</button></div> <div class="col-md-6" style="text-align: center;"><button type="button" class="btn  btn-primary" name="btn_connect">Connect</button></div></div>';
+			$('[data-rd="login_field"]').append(b);
+
+			//Bind the events
+			$("button[name=btn_click_to_connect]").off().on('click',function(){
+	            co.connect.onBtnClickToConnectClick();
+	        });
+
+			$("button[name=btn_connect]").off().on('click',function(){
+	            co.connect.onBtnConnectClick();
+		    });
+		}
+
+		//Buttons: only connect
+		if( $("body").data("DynamicDetail").data.settings.connect_check == false ){
+
+			var bb = '<div class="form-group-with-top-margin"><button type="button" class="btn btn-block btn-primary" name="btn_connect">Connect</button></div>';
+			$('[data-rd="login_field"]').append(bb);
+
+			$("button[name=btn_connect]").off().on('click',function(){
+	            co.connect.onBtnConnectClick();
+		    });
+		}
+
+		//Social Login
+		if( ($("body").data("DynamicDetail").data.settings.social_login.active == true) &&
+			($("body").data("DynamicDetail").data.settings.connect_only == false) ){
+
+			$.each($("body").data("DynamicDetail").data.settings.social_login.items, function( index, value ) {
+				var n = value.name;
+				var sl_btn = '<div class="form-group-with-top-margin"><button type="button" class="btn btn-block btn-primary" name="' + n + '" data-rd="' + n + '">Connect with ' + n + '</button></div>';
+				$('[data-rd="login_field"]').append(sl_btn);
+
+				//Bind the event handlers
+				$("button[data-rd='" + n + "']").off().on('click',function(){
+			        co.connect.onBtnClickSocialLogin(n);
+			    });
+			});
+		}
+
+		//If we need to diaplay usage:
+		if ($("body").data("DynamicDetail").data.settings.usage_show_check == true){
+			$("#usage_menu").show();
+
+			var u =
+				'<div id="usage" class="tab-pane fade" style="width: 380px;">'+
+					'<div id="div_data" style="padding-left: 10px; padding-right: 20px; padding-top: 30px; padding-bottom: 30px;">'+
+						'<div class="progress"><div id="data_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="color: black;"></div></div>'+
+						'<div class="center_and_bold" style="padding-top: 10px; margin-bottom: 15px;"><span id="data_used">NA</span> used of <span id="data_cap">NA</span></div>'+
+						'<span class="label">Refreshes every 5 minutes</span>'+
+					'</div>'+
+					'<div id="div_time" style="padding-left: 10px; padding-right: 20px; padding-top: 30px; padding-bottom: 30px;">'+
+						'<div class="progress"><div id="time_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="color: black;"></div></div>'+
+						'<div class="center_and_bold" style="padding-top: 10px; margin-bottom: 15px;"><span id="time_used">NA</span> used of <span id="time_cap">NA</span></div>'+
+						'<span class="label">Refreshes every 5 minutes</span>'+
+					'</div>'+
+					'<div id="div_notice" style="padding-right: 20px; margin-top: 20px; display: none;" class="alert alert-warning">There is no usage statistic for this account.</div>'+
+				'</div>';
+			$('#tab_panes').append(u);
+		}
+
+		//If registration is enabled
+		if ($("body").data("DynamicDetail").data.settings.register_users == true){
+			$('#user_registration_profile_id').val($("body").data("DynamicDetail").data.settings.user_registration_profile_id); // Hidden field
+			$("button[name=btn_register]").off().on('click',function(){
+	            co.connect.onBtnRegisterClick();
+		    });
+		}else{
+			$( "#register_menu" ).remove();
+		}
+
+		$("input").iCheck({ checkboxClass: 'icheckbox_flat' });
+	}
+
+	var doRememberMe = function(){
+		if( Cookies.get('remember_me') != undefined ){
+			$('#remember_me').iCheck('check');
+			$('#username').val(Cookies.get('username'));
+			$('#password').val(Cookies.get('password'));
+		}else{
+			$('#remember_me').removeAttr('checked');
+			//$('#username').val('');
+			//$('#pass').val('');
+		}
+	}
+
+    //Expose those public items...
+    return {
+        isHotspot       : isHotspot,
+        addDynamicInfo  : addDynamicInfo,
+		callIndex		: callIndex,
+		callclearRefresh: callclearRefresh
+    }
+  }
+})();
