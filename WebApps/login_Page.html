@@ -24,7 +24,7 @@
 <div class="jumbotron jumbotron-fluid bg-primary" id="jambo">
     <div class="container">
         <h1 class="display-4">M.E.C</h1>
-        <p class="lead">The Modern Way</p>
+        <p class="lead " id="signin_status">You are offline</p>
     </div>
 </div>
 
@@ -52,21 +52,53 @@
     </div>
 </nav>
         <!-- Voucher input-->
-        <form class="form-signin" id="form">
-            <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="M.E.C" width="72" height="72">
+        <form class="form-signin" id="connect">
+            <div id="cConnect">
+            <img class="mb-4" src="images/1520361342.jpg" alt="M.E.C" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Voucher" required autofocus>
+            <input type="text"  class="form-control has-feedback" placeholder="Voucher" id="voucher" required autofocus>
             <button class="btn btn-lg btn-outline-primary btn-block" id="sign_in_btn" type="submit" onclick="window.open(&#39;http://www.google.com&#39;);">
                 Go to internate</button>
             <small class="text-muted">Don't Share Your <b>Voucher</b> with anyone!</small>
             <p class="mt-5 mb-3 text-muted" id="copyRight">&copy; 2017-2018</p>
         </form>
+        </div>
     </div>
 
+        <div id="cNotHotspot" style="display: none;">
+            <h3 class="center">Not a hotspot</h3>
+            <p class="center">This is not a hotspot</p>
+        </div>
 
+        <div class="tab-content" id="tab_panes" style="background-color: white; margin-bottom: 25px;">
+            <div id="session" class="tab-pane active fade in">
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="badge" id="acct_un">9518pg2a</span>Username</li>
+                    <!--<li class="list-group-item"><span class="badge" id='acct_it'></span>Idle Time</li>-->
+                    <li class="list-group-item"><span class="badge badge-warning" id="acct_st">17m 45s</span>Session Time</li>
+                    <li class="list-group-item"><span class="badge badge-primary" id="acct_di">300 MB</span>Incoming Data</li>
+                    <li class="list-group-item"><span class="badge badge-primary" id="acct_do">10 MB</span>Outgoing Data</li>
+                    <li class="list-group-item"><span class="badge badge-primary" id="acct_dt">310 MB</span>Total Data</li>
+                </ul>
+                <span class="label"><strong>Refreshing in </strong><span id="status_refresh" class="info">13</span><strong> seconds.</strong></span>
+            </div>
+            <!--The usage tab will be appended here dynamically-->
+            <div id="usage" class="tab-pane fade" style="width: 380px;">
+                <div id="div_data" style="padding: 30px 20px 30px 10px; display: none;"><div class="progress"><div id="data_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="color: black;">
 
-
+                </div>
+                </div>
+                    <div class="center_and_bold" style="padding-top: 10px; margin-bottom: 15px;"><span id="data_used">NA</span> used of <span id="data_cap">NA</span>
+                    </div><span class="label">Refreshes every 5 minutes</span>
+                </div>
+                <div id="div_time" style="padding-left: 10px; padding-right: 20px; padding-top: 30px; padding-bottom: 30px;"><div class="progress"><div id="time_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100" style="color: black; width: 12%;">12%</div>
+                </div>
+                    <div class="center_and_bold" style="padding-top: 10px; margin-bottom: 15px;"><span id="time_used">15m 02s</span> used of <span id="time_cap">02h 00m 00s</span>
+                    </div><span class="label">Refreshes every 5 minutes</span>
+                </div>
+                <div id="div_notice" style="padding-right: 20px; margin-top: 20px; display: none;" class="alert alert-warning">There is no usage statistic for this account.</div>
+            </div>
+        </div>
 
 
 
