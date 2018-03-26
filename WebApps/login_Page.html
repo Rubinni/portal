@@ -21,7 +21,8 @@
 <body class="text-center">
 
         <!--Jambotrone -->
-<div class="jumbotron jumbotron-fluid bg-primary" id="jambo">
+
+<div class="jumbotron jumbotron-fluid bg-primary " id="jambo">
     <div class="container">
         <h1 class="display-4">M.E.C</h1>
         <p class="lead " id="signin_status">You are offline</p>
@@ -29,7 +30,7 @@
 </div>
 
         <!-- Navigation Bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-info">
+<nav class="navbar navbar-expand-lg navbar-light bg-info ">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -48,9 +49,15 @@
                 nasid=dell745-meraf&amp;sessionid=5a9a334700000002&amp;userurl=http%3a%2f%2f1.0.0.1%2f&amp;
                 md=9960D4299D8EF23D1D492385769F1DFD#usage">Overroll Usage </a>
             </li>
+            <li class="nav-item  mr-auto">
+                <progress class="progress-bar" id="myProgressBar">
+                    <div id="myBar">10%</div>
+                </progress>
+            </li>
         </ul>
     </div>
 </nav>
+        <!--End of NavigationBar -->
         <!-- Voucher input-->
         <form class="form-signin" id="connect">
             <div id="cConnect">
@@ -58,12 +65,13 @@
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
             <input type="text"  class="form-control has-feedback" placeholder="Voucher" id="voucher" required autofocus>
             <button class="btn btn-lg btn-outline-primary btn-block" id="sign_in_btn" type="submit" onclick="window.open(&#39;http://www.google.com&#39;);">
-                Go to internate</button>
-            <small class="text-muted">Don't Share Your <b>Voucher</b> with anyone!</small>
+                Go to Internate</button>
+            <small class="text-muted">Don't Share Your <b style="color: #c40000;">Voucher</b> with anyone!</small>
             <p class="mt-5 mb-3 text-muted" id="copyRight">&copy; 2017-2018</p>
         </form>
         </div>
     </div>
+
 
         <div id="cNotHotspot" style="display: none;">
             <h3 class="center">Not a hotspot</h3>
@@ -84,7 +92,8 @@
             </div>
             <!--The usage tab will be appended here dynamically-->
             <div id="usage" class="tab-pane fade" style="width: 380px;">
-                <div id="div_data" style="padding: 30px 20px 30px 10px; display: none;"><div class="progress"><div id="data_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="color: black;">
+                <div id="div_data" style="padding: 30px 20px 30px 10px; display: none;">
+                    <div class="progress"><div id="data_progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="color: black;">
 
                 </div>
                 </div>
@@ -99,15 +108,6 @@
                 <div id="div_notice" style="padding-right: 20px; margin-top: 20px; display: none;" class="alert alert-warning">There is no usage statistic for this account.</div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
 
 
 
